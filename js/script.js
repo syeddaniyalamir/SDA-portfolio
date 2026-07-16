@@ -11,8 +11,8 @@ window.addEventListener('load', () => {
 const themeToggle = document.getElementById('themeToggle');
 const html = document.documentElement;
 
-// Check for saved theme preference or default to light
-const savedTheme = localStorage.getItem('theme') || 'light';
+// Check for saved theme preference or default to dark for luxury portfolio
+const savedTheme = localStorage.getItem('theme') || 'dark';
 html.setAttribute('data-theme', savedTheme);
 
 themeToggle.addEventListener('click', () => {
