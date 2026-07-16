@@ -255,6 +255,45 @@ window.addEventListener('scroll', () => {
     }
 });
 
+// ===== Mouse Parallax Effect for Hero =====
+const heroImageWrapper = document.getElementById('heroImageWrapper');
+const techCards = document.querySelectorAll('.tech-card');
+
+if (heroImageWrapper) {
+    document.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX / window.innerWidth - 0.5;
+        const mouseY = e.clientY / window.innerHeight - 0.5;
+        
+        // Apply 3D transform to hero image wrapper
+        const rotateX = mouseY * 15; // Max 15 degrees rotation
+        const rotateY = mouseX * -15; // Max 15 degrees rotation
+        
+        heroImageWrapper.style.transform = `
+            translateY(${Math.sin(Date.now() / 1000) * 10}px)
+            rotateX(${rotateX}deg)
+            rotateY(${rotateY}deg)
+        `;
+        
+        // Apply parallax to tech cards with different speeds
+        techCards.forEach(card => {
+            const speed = parseFloat(card.dataset.speed) || 2;
+            const moveX = mouseX * 30 * speed;
+            const moveY = mouseY * 30 * speed;
+            
+            card.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+    });
+    
+    // Reset transforms when mouse leaves
+    document.addEventListener('mouseleave', () => {
+        heroImageWrapper.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
+        
+        techCards.forEach(card => {
+            card.style.transform = 'translate(0, 0)';
+        });
+    });
+}
+
 // ===== Mouse Move Effect on Cards =====
 // Tilt effect removed - now using CSS shine effect on all glass cards
 
