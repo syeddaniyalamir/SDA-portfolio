@@ -704,8 +704,8 @@ section {
 /* Main Image Container */
 .hero-image-wrapper {
     position: relative;
-    width: 400px;
-    height: 400px;
+    width: 450px;
+    height: 550px;
     transform-style: preserve-3d;
     animation: hero-float 6s ease-in-out infinite;
 }
@@ -719,44 +719,7 @@ section {
     }
 }
 
-/* Glowing Ring */
-.glowing-ring {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 340px;
-    height: 340px;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    background: linear-gradient(var(--bg-color), var(--bg-color)) padding-box,
-                var(--gradient-primary) border-box;
-    animation: ring-rotate 8s linear infinite;
-    z-index: 5;
-}
-
-.glowing-ring::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: var(--gradient-primary);
-    border-radius: 50%;
-    z-index: -1;
-    filter: blur(10px);
-    opacity: 0.5;
-}
-
-@keyframes ring-rotate {
-    from {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-    to {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
-}
+/* Glowing Ring - Removed for seamless transparent PNG display */
 
 /* Neon Glow */
 .neon-glow {
@@ -789,21 +752,12 @@ section {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 2px solid var(--glass-border);
+    width: 400px;
+    height: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    box-shadow: 
-        0 25px 50px -12px rgba(139, 92, 246, 0.25),
-        0 0 0 1px rgba(139, 92, 246, 0.1),
-        inset 0 0 20px rgba(139, 92, 246, 0.05);
+    overflow: visible;
     z-index: 10;
 }
 
@@ -814,17 +768,16 @@ section {
     align-items: center;
     justify-content: center;
     background: transparent;
-    border-radius: 50%;
-    overflow: hidden;
+    overflow: visible;
     position: relative;
 }
 
 .profile-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    border-radius: 50%;
+    object-fit: contain;
+    object-position: center bottom;
+    border-radius: 0;
 }
 
 /* Tech Cards */
@@ -947,26 +900,25 @@ section {
 
 .about-image-wrapper {
     position: relative;
-    width: 380px;
-    height: 380px;
+    width: 400px;
+    height: 400px;
 }
 
 .about-image-bg {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(30deg);
-    width: 100%;
-    height: 100%;
-    background: var(--gradient-secondary);
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    opacity: 0.15;
-    animation: rotate-bg 20s linear infinite;
+    transform: translate(-50%, -50%);
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, rgba(6, 182, 212, 0.3) 40%, transparent 70%);
+    filter: blur(60px);
+    animation: glow-pulse 4s ease-in-out infinite;
 }
 
-@keyframes rotate-bg {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
+@keyframes glow-pulse {
+    0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
 }
 
 .about-profile {
@@ -974,18 +926,54 @@ section {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 320px;
-    height: 320px;
-    border-radius: 25px;
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
     background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 2px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 3px solid transparent;
+    background-image: linear-gradient(var(--glass-bg), var(--glass-bg)), 
+                      linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background-origin: border-box;
+    background-clip: content-box, border-box;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 
+        0 30px 60px -15px rgba(139, 92, 246, 0.4),
+        0 0 0 1px rgba(139, 92, 246, 0.2),
+        inset 0 0 30px rgba(139, 92, 246, 0.1),
+        0 0 80px rgba(139, 92, 246, 0.2);
+    animation: luxury-float 6s ease-in-out infinite;
+}
+
+.about-profile::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+    background-size: 200% 200%;
+    animation: gradient-rotate 4s linear infinite;
+    z-index: -1;
+    filter: blur(15px);
+    opacity: 0.5;
+}
+
+@keyframes gradient-rotate {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes luxury-float {
+    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+    50% { transform: translate(-50%, -50%) translateY(-10px); }
 }
 
 .about-cards {
@@ -1898,13 +1886,13 @@ section {
     }
     
     .hero-image-wrapper {
-        width: 280px;
-        height: 280px;
+        width: 320px;
+        height: 350px;
     }
     
     .hero-profile {
-        width: 200px;
-        height: 200px;
+        width: 280px;
+        height: 320px;
     }
     
     .glowing-ring {
