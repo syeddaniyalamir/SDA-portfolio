@@ -429,10 +429,10 @@ section {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    padding-top: var(--header-height);
+    padding-top: calc(var(--header-height) + 60px);
     background: var(--bg-color);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     perspective: 1000px;
 }
 
@@ -704,8 +704,8 @@ section {
 /* Main Image Container */
 .hero-image-wrapper {
     position: relative;
-    width: 450px;
-    height: 550px;
+    width: 500px;
+    height: 700px;
     transform-style: preserve-3d;
     animation: hero-float 6s ease-in-out infinite;
 }
@@ -727,22 +727,22 @@ section {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 120%;
-    height: 120%;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, rgba(6, 182, 212, 0.2) 40%, transparent 70%);
-    filter: blur(40px);
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, rgba(6, 182, 212, 0.3) 40%, transparent 70%);
+    filter: blur(50px);
     animation: neon-pulse 4s ease-in-out infinite;
     z-index: 3;
 }
 
 @keyframes neon-pulse {
     0%, 100% {
-        opacity: 0.6;
+        opacity: 0.7;
         transform: translate(-50%, -50%) scale(1);
     }
     50% {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1.1);
+        transform: translate(-50%, -50%) scale(1.15);
     }
 }
 
@@ -752,8 +752,8 @@ section {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 400px;
-    height: 500px;
+    width: 480px;
+    height: 650px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -776,8 +776,10 @@ section {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    object-position: center bottom;
+    object-position: center center;
     border-radius: 0;
+    filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.5)) 
+            drop-shadow(0 0 60px rgba(6, 182, 212, 0.3));
 }
 
 /* Tech Cards */
@@ -806,7 +808,7 @@ section {
 }
 
 .tech-card-1 {
-    top: -20px;
+    top: 20px;
     right: -40px;
     animation-delay: 0s;
 }
@@ -836,7 +838,7 @@ section {
 }
 
 .tech-card-6 {
-    top: -10px;
+    top: 40px;
     left: -30px;
     animation-delay: -5s;
 }
@@ -889,7 +891,7 @@ section {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
-    align-items: center;
+    align-items: stretch;
 }
 
 .about-image {
@@ -900,80 +902,46 @@ section {
 
 .about-image-wrapper {
     position: relative;
-    width: 400px;
-    height: 400px;
+    width: 350px;
+    height: 100%;
+    min-height: 500px;
 }
 
 .about-image-bg {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 140%;
-    height: 140%;
-    background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, rgba(6, 182, 212, 0.3) 40%, transparent 70%);
-    filter: blur(60px);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, rgba(6, 182, 212, 0.2) 40%, transparent 70%);
+    filter: blur(50px);
     animation: glow-pulse 4s ease-in-out infinite;
 }
 
 @keyframes glow-pulse {
-    0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.8; }
 }
 
 .about-profile {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 340px;
-    height: 340px;
-    border-radius: 50%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 3px solid transparent;
-    background-image: linear-gradient(var(--glass-bg), var(--glass-bg)), 
-                      linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    background-origin: border-box;
-    background-clip: content-box, border-box;
+    border: 2px solid var(--glass-border);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     box-shadow: 
-        0 30px 60px -15px rgba(139, 92, 246, 0.4),
-        0 0 0 1px rgba(139, 92, 246, 0.2),
-        inset 0 0 30px rgba(139, 92, 246, 0.1),
-        0 0 80px rgba(139, 92, 246, 0.2);
-    animation: luxury-float 6s ease-in-out infinite;
-}
-
-.about-profile::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--primary-color));
-    background-size: 200% 200%;
-    animation: gradient-rotate 4s linear infinite;
-    z-index: -1;
-    filter: blur(15px);
-    opacity: 0.5;
-}
-
-@keyframes gradient-rotate {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-@keyframes luxury-float {
-    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
-    50% { transform: translate(-50%, -50%) translateY(-10px); }
+        0 25px 50px -12px rgba(139, 92, 246, 0.25),
+        0 0 0 1px rgba(139, 92, 246, 0.1),
+        inset 0 0 20px rgba(139, 92, 246, 0.05);
 }
 
 .about-cards {
@@ -1797,6 +1765,10 @@ section {
 
 /* ===== Responsive Design ===== */
 @media (max-width: 1024px) {
+    .hero {
+        padding-top: calc(var(--header-height) + 80px);
+    }
+    
     .hero-container {
         grid-template-columns: 1fr;
         text-align: center;
@@ -1804,6 +1776,8 @@ section {
     
     .hero-image-wrapper {
         margin: 0 auto;
+        width: 400px;
+        height: 550px;
     }
     
     .hero-buttons {
@@ -1838,6 +1812,10 @@ section {
 @media (max-width: 768px) {
     :root {
         --header-height: 70px;
+    }
+    
+    .hero {
+        padding-top: calc(var(--header-height) + 100px);
     }
     
     .nav-menu {
@@ -1886,13 +1864,13 @@ section {
     }
     
     .hero-image-wrapper {
-        width: 320px;
-        height: 350px;
+        width: 380px;
+        height: 520px;
     }
     
     .hero-profile {
-        width: 280px;
-        height: 320px;
+        width: 360px;
+        height: 500px;
     }
     
     .glowing-ring {
