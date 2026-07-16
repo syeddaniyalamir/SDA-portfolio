@@ -1258,27 +1258,25 @@ section {
 
 .project-image {
     width: 100%;
-    height: 200px;
+    height: 300px;
     background: var(--bg-color);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    border-radius: 12px;
 }
 
-.project-placeholder {
+.project-img {
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-secondary);
+    display: block;
+    object-fit: cover; 
+    transition: transform 0.3s ease;
 }
 
-.project-placeholder svg {
-    width: 60px;
-    height: 60px;
-    color: var(--text-muted);
+.project-card:hover .project-img {
+    transform: scale(1.05);
 }
 
 .project-content {
