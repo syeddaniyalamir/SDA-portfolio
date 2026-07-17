@@ -448,6 +448,131 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+// ===== Project Multi-Image Slider =====
+// Works automatically for every ".project-slider" found on the page.
+// To add more photos to a project, just add more ".project-slide" divs
+// inside its ".project-slider-track" in the HTML - no JS changes needed.
+document.querySelectorAll('[data-project-slider]').forEach((slider) => {
+    const track = slider.querySelector('.project-slider-track');
+    const slides = Array.from(slider.querySelectorAll('.project-slide'));
+    const prevBtn = slider.querySelector('.slider-btn-prev');
+    const nextBtn = slider.querySelector('.slider-btn-next');
+    const dotsWrap = slider.querySelector('.slider-dots');
+    const counter = slider.querySelector('.slider-counter');
+    const total = slides.length;
+
+    // Only one image? Hide all slider controls and stop here.
+    if (total <= 1) {
+        slider.setAttribute('data-single', 'true');
+        return;
+    }
+
+    let current = 0;
+    let autoplayTimer = null;
+
+    // Build dot indicators dynamically based on how many images exist
+    slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Go to image ${i + 1}`);
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.querySelectorAll('.slider-dot'));
+
+    function updateUI() {
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        if (counter) counter.textContent = `${current + 1}/${total}`;
+    }
+
+    function goToSlide(index) {
+        current = (index + total) % total;
+        updateUI();
+    }
+
+    function nextSlide() { goToSlide(current + 1); }
+    function prevSlide() { goToSlide(current - 1); }
+
+    prevBtn.addEventListener('click', () => { prevSlide(); restartAutoplay(); });
+    nextBtn.addEventListener('click', () => { nextSlide(); restartAutoplay(); });
+
+    // Autoplay: gently cycles through the project photos, pauses on interaction
+    function startAutoplay() {
+        autoplayTimer = setInterval(nextSlide, 4500);
+    }
+    function stopAutoplay() {
+        clearInterval(autoplayTimer);
+    }
+    function restartAutoplay() {
+        stopAutoplay();
+        startAutoplay();
+    }
+
+    slider.addEventListener('mouseenter', stopAutoplay);
+    slider.addEventListener('mouseleave', startAutoplay);
+
+    // Touch / swipe support for mobile and tablet
+    let touchStartX = 0;
+    let touchDeltaX = 0;
+    let isDragging = false;
+
+    track.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        isDragging = true;
+        stopAutoplay();
+    }, { passive: true });
+
+    track.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        touchDeltaX = e.touches[0].clientX - touchStartX;
+    }, { passive: true });
+
+    track.addEventListener('touchend', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        if (touchDeltaX > 40) {
+            prevSlide();
+        } else if (touchDeltaX < -40) {
+            nextSlide();
+        }
+        touchDeltaX = 0;
+        startAutoplay();
+    });
+
+    // Mouse drag support for desktop (optional nicety)
+    let mouseStartX = 0;
+    let mouseDeltaX = 0;
+    let isMouseDown = false;
+
+    track.addEventListener('mousedown', (e) => {
+        isMouseDown = true;
+        mouseStartX = e.clientX;
+        stopAutoplay();
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isMouseDown) return;
+        mouseDeltaX = e.clientX - mouseStartX;
+    });
+
+    window.addEventListener('mouseup', () => {
+        if (!isMouseDown) return;
+        isMouseDown = false;
+        if (mouseDeltaX > 50) {
+            prevSlide();
+        } else if (mouseDeltaX < -50) {
+            nextSlide();
+        }
+        mouseDeltaX = 0;
+        startAutoplay();
+    });
+
+    updateUI();
+    startAutoplay();
+});
+
 // ===== Console Welcome Message =====
 console.log('%c Welcome to my Portfolio! ', 'background: #6366f1; color: white; font-size: 20px; padding: 10px; border-radius: 5px;');
 console.log('%c Built with HTML5, CSS3, and Vanilla JavaScript ', 'color: #6366f1; font-size: 14px;');
